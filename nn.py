@@ -1,6 +1,8 @@
+from turtle import st
 import matplotlib.pyplot as plt
 import numpy as np
 import utils
+import time
 
 
 def initalise_paramters():
@@ -49,10 +51,17 @@ def update_parameters(derivW1, derivB1, derivW2, derivB2, W1, b1, W2, b2, alpha)
 def train(X, Y, alpha, epochs):
     W1, b1, W2, b2 = initalise_paramters()
     for i in range(1, epochs+1):
-        print(f'Epoch: {i}')
+        print("*********************************")
+        print(f'Training Epoch: {i}')
+        start_time = time.time()
         S1, A1, S2, A2 = feedforward(X, W1, b1, W2, b2)
         derivW1, derivB1, derivW2, derivB2 = backward_propagation(X, Y, S1, A1, A2, W2)
         W1, b1, W2, b2 = update_parameters(derivW1, derivB1, derivW2, derivB2, W1, b1, W2, b2, alpha)
+        end_time = time.time()
+        time_delta = end_time - start_time
+        print(f'Completed in: {time_delta} seconds')
+        print("*********************************")
+
 
     return W1, b1, W2, b2
 
@@ -79,6 +88,10 @@ def compute_accuracy(X, Y, W1, b1, W2, b2):
 def test_prediction(X, Y, W1, b1, W2, b2):
     yhat = predict(X, W1, b1, W2, b2)
     print('Prediction: ', yhat, 'Actual: ', Y)
+    # plt.imshow(X, cmap=plt.get_cmap('gray'))
+    # plt.show()
+    
+    
 
 
 
